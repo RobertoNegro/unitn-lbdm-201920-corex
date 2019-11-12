@@ -1,6 +1,7 @@
 import os
 import codecs
 import json
+import pickle
 import linearcorex as lc
 import pandas as pd
 from datetime import datetime
@@ -8,9 +9,9 @@ from datetime import datetime
 # pip install linearcorex numpy pandas scipy
 
 INPUT_FILE = 'in/top3k_genesymbol_variance_transposed_for_corex.txt'
-START_NUMBER_FACTORS = 80
+START_NUMBER_FACTORS = 640
 MULTIPLIER_NUMBER_FACTORS = 2
-END_NUMBER_FACTORS = 320
+END_NUMBER_FACTORS = 5120
 REPETITIONS = 1
 
 OUTPUT_PARENT_DIRECTORY = 'out/'
@@ -36,7 +37,7 @@ while latent_factors <= END_NUMBER_FACTORS:
         print('Fitting...')
         out = lc.Corex(n_hidden=latent_factors, max_iter=10000, verbose=True)
         out.fit(input_matrix)
-        #Y = out.transform(input_matrix, details=True)
+        Y = out.transform(input_matrix, details=True)
 
         clusters = out.clusters()
         tcs = out.tcs
@@ -50,6 +51,7 @@ while latent_factors <= END_NUMBER_FACTORS:
             best['clusters'] = clusters
             best['tcs'] = tcs
             best['tc'] = tc
+            best['Y'] = Y
             print('BEST OF ALL REPETITIONS!')
 
         if repetition < REPETITIONS - 1:
@@ -66,5 +68,8 @@ while latent_factors <= END_NUMBER_FACTORS:
             'tcs': best['tcs'].tolist(),
             'tc': best['tc'],
         }, json_file, separators=(',', ':'), indent=2)
+
+    with open(os.path.join(OUTPUT_PATH, '%d.pickle' % latent_factors), 'wb') as pickle_file:
+        pickle.dump(best['Y'], pickle_file, protocol=pickle.HIGHEST_PROTOCOL)
 
     latent_factors *= 2
