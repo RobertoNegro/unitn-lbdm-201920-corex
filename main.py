@@ -2,11 +2,12 @@ import os
 import codecs
 import json
 import linearcorex as lc
-import numpy as np
 import pandas as pd
 from datetime import datetime
 
-INPUT_FILE = 'in/top3k_genesymbol_variance_transposed_for_biocorex.txt'
+# pip install linearcorex numpy pandas scipy
+
+INPUT_FILE = 'in/top3k_genesymbol_variance_transposed_for_corex.txt'
 START_NUMBER_FACTORS = 80
 MULTIPLIER_NUMBER_FACTORS = 2
 END_NUMBER_FACTORS = 320
