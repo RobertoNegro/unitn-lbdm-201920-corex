@@ -11,9 +11,9 @@ from datetime import datetime
 # removed order of TCs from linearcorex
 
 INPUT_FILE = 'in/top3kvariance_plus_literature_genesymbol_transposed_for_corex.txt'
-START_NUMBER_FACTORS = 900
+START_NUMBER_FACTORS = 35
 MULTIPLIER_NUMBER_FACTORS = 2
-END_NUMBER_FACTORS = 900
+END_NUMBER_FACTORS = 35
 REPETITIONS = 1
 
 OUTPUT_PARENT_DIRECTORY = 'out/'
@@ -21,9 +21,12 @@ OUTPUT_DIRECTORY = str(datetime.timestamp(datetime.now()))
 OUTPUT_PATH = os.path.join(OUTPUT_PARENT_DIRECTORY, OUTPUT_DIRECTORY)
 
 os.mkdir(OUTPUT_PATH)
-
 input_matrix = pd.read_csv(INPUT_FILE, sep=' ', header=[0])
 print('Using as input matrix:\n%s' % str(input_matrix))
+
+with open('in/transform_70.pickle', 'rb') as input_file:
+    previous_latent_factors = (pickle.load(input_file))[0]
+print('Using as latent factors:\n%s' % str(previous_latent_factors))
 
 latent_factors = START_NUMBER_FACTORS
 while latent_factors <= END_NUMBER_FACTORS:
@@ -38,8 +41,8 @@ while latent_factors <= END_NUMBER_FACTORS:
         print('Executing with %d latent factors, repetition %d...' % (latent_factors, repetition))
         print('Fitting...')
         out = lc.Corex(n_hidden=latent_factors, max_iter=10000, verbose=True)
-        fit = out.fit(input_matrix)
-        transform = out.transform(input_matrix, details=True)
+        fit = out.fit(previous_latent_factors)
+        transform = out.transform(previous_latent_factors, details=True)
         clusters = out.clusters()
         tcs = out.tcs
         tc = out.tc
