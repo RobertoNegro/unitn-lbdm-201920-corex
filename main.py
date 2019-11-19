@@ -6,7 +6,7 @@ import linearcorex as lc
 import pandas as pd
 from datetime import datetime
 
-# pip install linearcorex numpy pandas scipy
+# pip install linearcorex numpy pandas scipy networkx pydot
 # removed numpy max in transform() function of linearcorex
 # removed order of TCs from linearcorex
 
@@ -16,17 +16,24 @@ MULTIPLIER_NUMBER_FACTORS = 2
 END_NUMBER_FACTORS = 35
 REPETITIONS = 1
 
+USE_PREVIOUS_LAYER = True
+PREVIOUS_LAYER_FILE = 'in/transform_70.pickle'
+
 OUTPUT_PARENT_DIRECTORY = 'out/'
 OUTPUT_DIRECTORY = str(datetime.timestamp(datetime.now()))
 OUTPUT_PATH = os.path.join(OUTPUT_PARENT_DIRECTORY, OUTPUT_DIRECTORY)
 
-os.mkdir(OUTPUT_PATH)
-input_matrix = pd.read_csv(INPUT_FILE, sep=' ', header=[0])
-print('Using as input matrix:\n%s' % str(input_matrix))
 
-with open('in/transform_70.pickle', 'rb') as input_file:
-    previous_latent_factors = (pickle.load(input_file))[0]
-print('Using as latent factors:\n%s' % str(previous_latent_factors))
+os.mkdir(OUTPUT_PATH)
+
+if USE_PREVIOUS_LAYER:
+    with open(PREVIOUS_LAYER_FILE, 'rb') as input_file:
+        previous_latent_factors = (pickle.load(input_file))[0]
+    print('Using as latent factors:\n%s' % str(previous_latent_factors))
+else:
+    input_matrix = pd.read_csv(INPUT_FILE, sep=' ', header=[0])
+    print('Using as input matrix:\n%s' % str(input_matrix))
+    previous_latent_factors = input_matrix
 
 latent_factors = START_NUMBER_FACTORS
 while latent_factors <= END_NUMBER_FACTORS:

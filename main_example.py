@@ -17,8 +17,8 @@ out.fit(X)
 print('\nClusters\n==================')
 print(out.clusters())
 
-# print('\nCovariance\n==================')
-# print(out.get_covariance())
+print('\nCovariance\n==================')
+print(out.get_covariance())
 
 print('\nTCS\n==================')
 print(out.tcs)
