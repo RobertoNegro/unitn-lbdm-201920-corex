@@ -6,10 +6,12 @@ import linearcorex as lc
 import pandas as pd
 from datetime import datetime
 
-# pip install linearcorex numpy pandas scipy networkx pydot
-# removed numpy max in transform() function of linearcorex
-# removed order of TCs from linearcorex
+# Required to-do and to-install in order to execute:
+# - pip install linearcorex numpy pandas scipy networkx pydot
+# - removed  np.max(np.abs(x)) in preprocess() from linearcorex (commented lines 416-417)
+# - removed order of TCs from linearcorex (commented lines 161-163 of linearcorex.py)
 
+# ------------- CONFIG ----------------
 INPUT_FILE = 'in/top3kvariance_plus_literature_genesymbol_transposed_for_corex.txt'
 START_NUMBER_FACTORS = 35
 MULTIPLIER_NUMBER_FACTORS = 2
@@ -22,7 +24,7 @@ PREVIOUS_LAYER_FILE = 'in/transform_70.pickle'
 OUTPUT_PARENT_DIRECTORY = 'out/'
 OUTPUT_DIRECTORY = str(datetime.timestamp(datetime.now()))
 OUTPUT_PATH = os.path.join(OUTPUT_PARENT_DIRECTORY, OUTPUT_DIRECTORY)
-
+# -------------------------------------
 
 os.mkdir(OUTPUT_PATH)
 

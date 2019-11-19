@@ -5,11 +5,13 @@ import networkx as nx
 import randomcolor
 from networkx.drawing.nx_pydot import write_dot
 
+# ------------- CONFIG ----------------
 INPUT_LAYER_FILE = 'in_layers/layer%d_fit.pickle'
 INPUT_MATRIX_FILE = 'in/top3kvariance_plus_literature_genesymbol_transposed_for_corex.txt'
 OUTPUT_FILE_DOT = 'out_graph/graph_%dlayers.dot'
 OUTPUT_FILE_SVG = 'out_graph/graph_%dlayers.svg'
 OUTPUT_FILE_LINEAR_SVG = 'out_graph/graph_%dlayers_linear.svg'
+# -------------------------------------
 
 G = nx.Graph()
 
