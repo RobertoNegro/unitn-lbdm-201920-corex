@@ -88,4 +88,4 @@ while latent_factors <= END_NUMBER_FACTORS:
     with open(os.path.join(OUTPUT_PATH, 'transform_%d.pickle' % latent_factors), 'wb') as pickle_file:
         pickle.dump(best['transform'], pickle_file, protocol=pickle.HIGHEST_PROTOCOL)
 
-    latent_factors *= 2
+    latent_factors *= MULTIPLIER_NUMBER_FACTORS
